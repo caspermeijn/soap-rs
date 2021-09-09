@@ -1,0 +1,14 @@
+# Copyright (C) 2021 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[package]
+name = "soap-rs"
+version = "0.1.0"
+edition = "2018"
+description = "SOAP 1.2 support library"
+authors = ["Casper Meijn <casper@meijn.net>"]
+repository = "https://github.com/caspermeijn/soap-rs"
+license = "GPL-3.0-or-later"
+
+[dependencies]

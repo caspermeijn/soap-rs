@@ -1,0 +1,14 @@
+# Copyright (C) 2021 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+tasks:
+  - init: |
+      pip3 install --user reuse
+      cargo build
+    command: |
+      cargo run
+vscode:
+  extensions:
+    - matklad.rust-analyzer
+    - vivaxy.vscode-conventional-commits

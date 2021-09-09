@@ -1,0 +1,21 @@
+# Copyright (C) 2021 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Conventional Commits
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# FIXME: using commitsar@master, because v0.16.0 doesn´t support `main` branch yet
+
+jobs:
+  validate-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Commitsar check
+        uses: aevea/commitsar@master

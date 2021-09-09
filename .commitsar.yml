@@ -1,0 +1,8 @@
+# Copyright (C) 2021 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+verbose: true
+commits:
+  all: true
+  upstreamBranch: origin/main

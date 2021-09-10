@@ -15,3 +15,5 @@ license = "GPL-3.0-or-later"
 name = "soap"
 
 [dependencies]
+xml-rs = "0.8"
+xmltree = "0.10"

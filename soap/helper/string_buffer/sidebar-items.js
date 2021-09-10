@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["StringBuffer","Buffer from writing bytes to. The buffer can then be converted to a String"]]});

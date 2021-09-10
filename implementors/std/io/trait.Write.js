@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["soap"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.55.0/std/io/trait.Write.html\" title=\"trait std::io::Write\">Write</a> for <a class=\"struct\" href=\"soap/helper/string_buffer/struct.StringBuffer.html\" title=\"struct soap::helper::string_buffer::StringBuffer\">StringBuffer</a>","synthetic":false,"types":["soap::helper::string_buffer::StringBuffer"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

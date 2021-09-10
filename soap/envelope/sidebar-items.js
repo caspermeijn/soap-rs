@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ParseError","Errors that can occur parsing XML"],["WriteError","An error which may be returned by `XmlWriter` when writing XML events."]],"struct":[["EmitterConfig","Emitter configuration structure."],["Envelope","Container for an SOAP Envelope"]]});

@@ -41,7 +41,7 @@ impl Envelope {
 
     /// Parses xml data into an Envelope
     pub fn parse<R: Read>(r: R) -> Result<Envelope, ParseError> {
-        let xmlnode = xmltree::Element::parse(r).map_err(|e| ParseError::MalformedXml(e))?;
+        let xmlnode = xmltree::Element::parse(r).map_err(ParseError::MalformedXml)?;
 
         if xmlnode.name != "Envelope" {
             return Err(ParseError::InvalidEnvelopeName);

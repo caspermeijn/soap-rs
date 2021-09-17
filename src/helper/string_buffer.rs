@@ -29,13 +29,14 @@ use std::io::Write;
 /// let text: String = buffer.into();
 /// assert_eq!(String::from("Hello world!"), text);
 /// ```
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct StringBuffer {
     buf: Vec<u8>,
 }
 
 impl StringBuffer {
     pub fn new() -> Self {
-        Self { buf: vec![] }
+        Self::default()
     }
 
     pub fn to_string(self) -> String {

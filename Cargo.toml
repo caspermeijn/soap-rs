@@ -15,5 +15,6 @@ license = "GPL-3.0-or-later"
 name = "soap"
 
 [dependencies]
+uuid = { version = "0.8", features = ["v4"] }
 xml-rs = "0.8"
 xmltree = "0.10"

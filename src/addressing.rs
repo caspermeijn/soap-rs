@@ -17,7 +17,7 @@
 
 use crate::{envelope::Envelope, helper::element_builder::ElementBuilder};
 
-/// Implementation of WS-Addressing
+/// Implementation of [WS-Addressing](https://www.w3.org/Submission/2004/SUBM-ws-addressing-20040810/)
 ///
 /// # Status
 /// Incomplete
@@ -80,6 +80,14 @@ impl AddressingBuilder {
         self
     }
 
+    pub fn generate_random_message_id(self) -> Self {
+        use uuid::Uuid;
+        let uuid = Uuid::new_v4();
+        let mut buffer = Uuid::encode_buffer();
+        let text = uuid.to_urn().encode_lower(&mut buffer);
+        self.message_id(text)
+    }
+
     pub fn to<S>(mut self, text: S) -> Self
     where
         S: Into<String>,
@@ -135,5 +143,12 @@ mod tests {
 </env:Envelope>"#;
 
         assert_eq!(expected_result, output.to_string());
+    }
+
+    #[test]
+    fn builder_random_message_id() {
+        let builder = AddressingBuilder::new().generate_random_message_id();
+        let message_id = builder.addressing.message_id.unwrap();
+        assert!(message_id.starts_with("urn:uuid:"));
     }
 }

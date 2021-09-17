@@ -1,3 +1,4 @@
 (function() {var implementors = {};
+implementors["uuid"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.55.0/core/str/traits/trait.FromStr.html\" title=\"trait core::str::traits::FromStr\">FromStr</a> for <a class=\"struct\" href=\"uuid/struct.Uuid.html\" title=\"struct uuid::Uuid\">Uuid</a>","synthetic":false,"types":["uuid::Uuid"]}];
 implementors["xml"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.55.0/core/str/traits/trait.FromStr.html\" title=\"trait core::str::traits::FromStr\">FromStr</a> for <a class=\"struct\" href=\"xml/name/struct.OwnedName.html\" title=\"struct xml::name::OwnedName\">OwnedName</a>","synthetic":false,"types":["xml::name::OwnedName"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

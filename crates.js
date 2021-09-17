@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["soap","xml","xmltree"];
+window.ALL_CRATES = ["cfg_if","getrandom","libc","soap","uuid","xml","xmltree"];

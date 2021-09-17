@@ -137,6 +137,21 @@
 <span id="137">137</span>
 <span id="138">138</span>
 <span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
 </pre><pre class="rust">
 <span class="comment">/* Copyright (C) 2021 Casper Meijn &lt;casper@meijn.net&gt;
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -157,7 +172,7 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">envelope::Envelope</span>, <span class="ident">helper::element_builder::ElementBuilder</span>};
 
-<span class="doccomment">/// Implementation of WS-Addressing</span>
+<span class="doccomment">/// Implementation of [WS-Addressing](https://www.w3.org/Submission/2004/SUBM-ws-addressing-20040810/)</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Status</span>
 <span class="doccomment">/// Incomplete</span>
@@ -220,6 +235,14 @@
         <span class="self">self</span>
     }
 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate_random_message_id</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">use</span> <span class="ident">uuid::Uuid</span>;
+        <span class="kw">let</span> <span class="ident">uuid</span> <span class="op">=</span> <span class="ident">Uuid::new_v4</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Uuid::encode_buffer</span>();
+        <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">uuid</span>.<span class="ident">to_urn</span>().<span class="ident">encode_lower</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>);
+        <span class="self">self</span>.<span class="ident">message_id</span>(<span class="ident">text</span>)
+    }
+
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
@@ -275,6 +298,13 @@
 &lt;/env:Envelope&gt;&quot;#</span>;
 
         <span class="macro">assert_eq!</span>(<span class="ident">expected_result</span>, <span class="ident">output</span>.<span class="ident">to_string</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">builder_random_message_id</span>() {
+        <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">AddressingBuilder::new</span>().<span class="ident">generate_random_message_id</span>();
+        <span class="kw">let</span> <span class="ident">message_id</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">addressing</span>.<span class="ident">message_id</span>.<span class="ident">unwrap</span>();
+        <span class="macro">assert!</span>(<span class="ident">message_id</span>.<span class="ident">starts_with</span>(<span class="string">&quot;urn:uuid:&quot;</span>));
     }
 }
 </pre></div>

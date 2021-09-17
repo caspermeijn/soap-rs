@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["envelope",""],["helper",""]]});
+initSidebarItems({"mod":[["addressing",""],["envelope",""],["helper",""]]});

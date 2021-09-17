@@ -59,6 +59,7 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
+<span id="62">62</span>
 </pre><pre class="rust">
 <span class="comment">/* Copyright (C) 2021 Casper Meijn &lt;casper@meijn.net&gt;
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -91,13 +92,14 @@
 <span class="doccomment">/// let text: String = buffer.into();</span>
 <span class="doccomment">/// assert_eq!(String::from(&quot;Hello world!&quot;), text);</span>
 <span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StringBuffer</span> {
     <span class="ident">buf</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">StringBuffer</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">buf</span>: <span class="macro">vec!</span>[] }
+        <span class="self">Self</span><span class="ident">::default</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_string</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {

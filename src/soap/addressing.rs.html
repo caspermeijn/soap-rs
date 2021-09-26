@@ -152,6 +152,59 @@
 <span id="152">152</span>
 <span id="153">153</span>
 <span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
 </pre><pre class="rust">
 <span class="comment">/* Copyright (C) 2021 Casper Meijn &lt;casper@meijn.net&gt;
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -184,6 +237,28 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Addressing</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">envelope</span>: <span class="kw-2">&amp;</span><span class="ident">Envelope</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">AddressingBuilder::new</span>();
+        <span class="kw">for</span> <span class="ident">header</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">envelope</span>.<span class="ident">header</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">xmltree::XMLNode::Element</span>(<span class="ident">element</span>) <span class="op">=</span> <span class="ident">header</span> {
+                <span class="kw">if</span> <span class="ident">element</span>.<span class="ident">namespace</span>
+                    <span class="op">=</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot;</span>.<span class="ident">to_string</span>())
+                {
+                    <span class="kw">if</span> <span class="ident">element</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;Action&quot;</span> {
+                        <span class="ident">builder</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">action</span>(<span class="ident">element</span>.<span class="ident">get_text</span>().<span class="ident">unwrap</span>())
+                    }
+                    <span class="kw">if</span> <span class="ident">element</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;MessageID&quot;</span> {
+                        <span class="ident">builder</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">message_id</span>(<span class="ident">element</span>.<span class="ident">get_text</span>().<span class="ident">unwrap</span>())
+                    }
+                    <span class="kw">if</span> <span class="ident">element</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;To&quot;</span> {
+                        <span class="ident">builder</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">to</span>(<span class="ident">element</span>.<span class="ident">get_text</span>().<span class="ident">unwrap</span>())
+                    }
+                }
+            }
+        }
+        <span class="ident">builder</span>.<span class="ident">into</span>()
+    }
+
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">envelope</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Envelope</span>) {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">action</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">action</span> {
             <span class="kw">let</span> <span class="ident">element</span> <span class="op">=</span> <span class="ident">ElementBuilder::new</span>(<span class="string">&quot;wsa:Action&quot;</span>)
@@ -305,6 +380,37 @@
         <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">AddressingBuilder::new</span>().<span class="ident">generate_random_message_id</span>();
         <span class="kw">let</span> <span class="ident">message_id</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">addressing</span>.<span class="ident">message_id</span>.<span class="ident">unwrap</span>();
         <span class="macro">assert!</span>(<span class="ident">message_id</span>.<span class="ident">starts_with</span>(<span class="string">&quot;urn:uuid:&quot;</span>));
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">parser_addressing_printer</span>() {
+        <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::envelope::Envelope</span>;
+
+        <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="string">r#&quot;&lt;env:Envelope xmlns:env=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;
+    &lt;env:Header&gt;
+        &lt;wsa:Action xmlns:wsa=&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot;&gt;http://schemas.xmlsoap.org/ws/2005/04/discovery/Hello&lt;/wsa:Action&gt;
+        &lt;wsa:MessageID xmlns:wsa=&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot;&gt;urn:uuid:94ff5a40-6d87-11b2-8da8-84ba3bbfd024&lt;/wsa:MessageID&gt;
+        &lt;wsa:To xmlns:wsa=&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot;&gt;urn:schemas-xmlsoap-org:ws:2005:04:discovery&lt;/wsa:To&gt;
+    &lt;/env:Header&gt;
+    &lt;env:Body /&gt;
+&lt;/env:Envelope&gt;&quot;#</span>;
+
+        <span class="kw">let</span> <span class="ident">envelope</span> <span class="op">=</span> <span class="ident">Envelope::parse</span>(<span class="ident">input</span>.<span class="ident">as_bytes</span>()).<span class="ident">unwrap</span>();
+
+        <span class="kw">let</span> <span class="ident">addressing</span> <span class="op">=</span> <span class="ident">Addressing::parse</span>(<span class="kw-2">&amp;</span><span class="ident">envelope</span>);
+
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">addressing</span>.<span class="ident">action</span>,
+            <span class="prelude-val">Some</span>(<span class="string">&quot;http://schemas.xmlsoap.org/ws/2005/04/discovery/Hello&quot;</span>.<span class="ident">to_string</span>())
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">addressing</span>.<span class="ident">message_id</span>,
+            <span class="prelude-val">Some</span>(<span class="string">&quot;urn:uuid:94ff5a40-6d87-11b2-8da8-84ba3bbfd024&quot;</span>.<span class="ident">to_string</span>())
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">addressing</span>.<span class="ident">to</span>,
+            <span class="prelude-val">Some</span>(<span class="string">&quot;urn:schemas-xmlsoap-org:ws:2005:04:discovery&quot;</span>.<span class="ident">to_string</span>())
+        );
     }
 }
 </pre></div>

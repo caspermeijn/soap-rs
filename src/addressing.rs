@@ -29,6 +29,28 @@ pub struct Addressing {
 }
 
 impl Addressing {
+    pub fn parse(envelope: &Envelope) -> Self {
+        let mut builder = AddressingBuilder::new();
+        for header in &envelope.header {
+            if let xmltree::XMLNode::Element(element) = header {
+                if element.namespace
+                    == Some("http://schemas.xmlsoap.org/ws/2004/08/addressing".to_string())
+                {
+                    if element.name == "Action" {
+                        builder = builder.action(element.get_text().unwrap())
+                    }
+                    if element.name == "MessageID" {
+                        builder = builder.message_id(element.get_text().unwrap())
+                    }
+                    if element.name == "To" {
+                        builder = builder.to(element.get_text().unwrap())
+                    }
+                }
+            }
+        }
+        builder.into()
+    }
+
     pub fn write(&self, envelope: &mut Envelope) {
         if let Some(action) = &self.action {
             let element = ElementBuilder::new("wsa:Action")
@@ -150,5 +172,36 @@ mod tests {
         let builder = AddressingBuilder::new().generate_random_message_id();
         let message_id = builder.addressing.message_id.unwrap();
         assert!(message_id.starts_with("urn:uuid:"));
+    }
+
+    #[test]
+    fn parser_addressing_printer() {
+        use crate::envelope::Envelope;
+
+        let input = r#"<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+    <env:Header>
+        <wsa:Action xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">http://schemas.xmlsoap.org/ws/2005/04/discovery/Hello</wsa:Action>
+        <wsa:MessageID xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">urn:uuid:94ff5a40-6d87-11b2-8da8-84ba3bbfd024</wsa:MessageID>
+        <wsa:To xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">urn:schemas-xmlsoap-org:ws:2005:04:discovery</wsa:To>
+    </env:Header>
+    <env:Body />
+</env:Envelope>"#;
+
+        let envelope = Envelope::parse(input.as_bytes()).unwrap();
+
+        let addressing = Addressing::parse(&envelope);
+
+        assert_eq!(
+            addressing.action,
+            Some("http://schemas.xmlsoap.org/ws/2005/04/discovery/Hello".to_string())
+        );
+        assert_eq!(
+            addressing.message_id,
+            Some("urn:uuid:94ff5a40-6d87-11b2-8da8-84ba3bbfd024".to_string())
+        );
+        assert_eq!(
+            addressing.to,
+            Some("urn:schemas-xmlsoap-org:ws:2005:04:discovery".to_string())
+        );
     }
 }
